@@ -19,5 +19,6 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/',[TodoController::class,'index'])->name('index');
 Route::post('/add',[TodoController::class,'addlist'])->name('add.list');
-Route::post('/update',[TodoController::class,'updatelist'])->name('update.list');
-Route::post('/delete',[TodoController::class,'deletelist'])->name('delete.list');
+Route::get('/edit',[TodoController::class,'Editlist'])->name('edit.list');
+Route::put('/update',[TodoController::class,'updatelist'])->name('update.list');
+Route::delete('delete',[TodoController::class,'deletelist'])->name('delete.list');

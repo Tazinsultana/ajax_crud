@@ -18,10 +18,10 @@
             // For Creating....
             let title = $('#title').val();
             let is_active = $('#is_active').is(":checked");
-            console.log(title, is_active);
+            // console.log(title, is_active);
 
             $.ajax({
-                // url: '/add',
+               
                 url: "{{ route('add.list') }}",
                 method: 'POST',
                 data: {
@@ -51,18 +51,37 @@
             })
 
         })
+
+
         // show update form
+
         $(document).on('click', '.upate_modal_form', function() {
             let id = $(this).data('id');
-            let title = $(this).data('title');
-            // let is_active=$(this).data('is_active');
+            console.log(id);
+          
+            $.ajax({
 
-            $('#up_id').val(id);
-            $('#up_title').val(title);
-            // $('#up_is_active').val(is_active);
+            url:"{{ route('edit.list') }}",
+            method:"GeT",
+            data:{id},
+            success:function(res){
 
+            $('#up_id').val(res.data.id);
+            $('#up_title').val(res.data.title);
 
+            if(res.data.is_active){
+                $('#up_is_active').prop('checked',true);
 
+            }
+            else{
+                $('#up_is_active').prop('checked',false);
+            }
+            
+                // console.log(res);
+            }
+
+           })
+            
         });
 
         // update list
@@ -70,18 +89,20 @@
         $(document).on('click', '.up_lst', function(e) {
 
             e.preventDefault();
-            // For Creating....
+
+            let up_id=$('#up_id').val();
             let up_title = $('#up_title').val();
             let up_is_active = $('#up_is_active').is(":checked");
             // console.log(title, is_active);
 
             $.ajax({
-                // url: '/add',
+
                 url: "{{ route('update.list') }}",
-                method: 'POST',
+                method: 'PUT',
                 data: {
-                    up_title,
-                    up_is_active
+                    id:up_id,
+                   title: up_title,
+                    is_active:up_is_active
                 },
                 success: function(res) {
                     if (res.status == 'success') {
@@ -89,9 +110,7 @@
                         $('#update')[0].reset();
                         $('.table').load(location.href + ' .table');
                     }
-                    // $('#todo_modal').modal('hide')
-                    // $('#title').val('')
-                    // getData();
+
                 },
                 error: function(err) {
 
@@ -104,6 +123,42 @@
                     });
                 }
             })
+
+        })
+
+        // delete list
+
+        $(document).on('click', '.delete_modal', function(e) {
+
+            e.preventDefault();
+
+            let del_id = $(this).data('id');
+            // alert(del_id);
+            if (confirm('Are you sure to delte list??')) {
+
+                $.ajax({
+
+                    //    url: '/delete/'+id,
+                    
+                    url: "{{ route('delete.list') }}",
+                    method: 'DELETE',
+                    data: { del_id},
+                        
+                  
+                    success: function(res) {
+                        if (res.status == 'success') {
+
+                            $('.table').load(location.href + ' .table');
+                        }
+
+                    }
+
+                })
+
+            }
+
+            // console.log(title, is_active)
+
 
         })
     });

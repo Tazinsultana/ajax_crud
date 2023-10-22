@@ -48,43 +48,64 @@ class TodoController extends Controller
 
     }
 
+    public function Editlist(Request $request){
+     $todo=Todolist::findOrFail($request->id);
+     return response()->json([
+
+        'status'=> 'success',
+        'data'=>$todo,
+     ]);
+
+
+       
+    }
+
     // update/edit
-    public function updatelist(Request $request,Todolist $todo){
-        
+    public function updatelist(Request $request){
+        // dd($request->all());
         $request->validate(
             [
-                'up_title' => 'required|unique:todolists,title' .$request->up_id,
+                'title' => 'required|unique:todolists,title' .$request->up_id,
 
             ],
             [
-                'up_title.required' => 'Title is requried',
-                'up_title.unique' => 'Already Exists'
+                'title.required' => 'Title is requried',
+                'title.unique' => 'Already Exists'
             ]
         );
 
         // $title = $request->up_title;
-        // $active = $request->up_is_activec" ? true : false;
-        $title=$request->up_title;
-        $active=$request->up_is_active == "true"? true:false;
+        // $active = $request->up_is_active ? true : false;
+        $title=$request->title;
+         $active=$request->is_active == "true"? true:false;
+         Todolist::findOrFail($request->id)->update([
         
-        $todo->update([
             'title'=>$title,
             'is_active'=>$active
         ]);
         
 // Todolist::where('id',$request->up_id)->update([
 
-//     // 'title' => $title,
-//     // 'is_active' => $active
-//     'title'=>$request->up_title,
-//     'is_active'=>$request->up_is_active=="true" ? true : false,
+//     'title' => $title,
+//  'is_active' => $active
+//     'title'=> $request->up_title,
+//     'is_active'=> $request->up_is_active =="true" ? true : false,
 // ]);
+// dd($request->all());
         return response()->json([
             'status' => 'success',
 
         ]);
-
-
-
     }
+
+    // for delete
+    public function deletelist(Request $request){
+
+        Todolist::find($request->del_id)->delete();
+        return response()->json([
+            'status' => 'success',
+
+        ]);
+    }
+
 }
