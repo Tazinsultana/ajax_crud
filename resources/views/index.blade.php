@@ -48,29 +48,47 @@
                                     <td>{{ $todos->title }}</td>
 
                                     <td>
-                                      {{-- {{ $todos->is_active }} --}}
+                                      
                                         @if ($todos->is_active)
-                                        <span class="badge text-bg-success">Active</span>
-                                            
+                                            <span class="badge text-bg-success">Active</span>
                                         @else
-                                        <span class="badge text-bg-danger">InActive</span>
-                                          
+                                            <span class="badge text-bg-danger">InActive</span>
                                         @endif
                                     </td>
 
                                     <td>
-                                        <a href="#" class="btn btn-warning"> Edit</a>
-                                        <a href="#" class="btn btn-danger">Delete</a>
+                                        <a href="#"
+                                         class="btn btn-warning upate_modal_form" 
+                                         data-bs-toggle="modal" 
+                                         data-bs-target="#updatemodal"
+                                         data-id="{{ $todos->id }}"
+                                         data-title="{{ $todos->title }}"
+                                         {{-- data-is_active="{{ $todos->is_active }}" --}}
+                                         > 
+                                         Edit
+                                        </a>
+
+
+                                        <a href="#" 
+                                        class="btn btn-danger"
+                                        data-id="{{ $todos->id }}"
+                                        
+                                        >
+                                        Delete
+                                      </a>
                                     </td>
                                 </tr>
                             @endforeach
 
                         </tbody>
+                        {{-- { !!$todo->links() !! }  --}}
                 </div>
                 </table>
+
             </div>
         </div>
     </div>
+    @include('update_modal')
     @include('ajax')
 
 </body>

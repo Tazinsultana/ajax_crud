@@ -47,4 +47,44 @@ class TodoController extends Controller
         ]);
 
     }
+
+    // update/edit
+    public function updatelist(Request $request,Todolist $todo){
+        
+        $request->validate(
+            [
+                'up_title' => 'required|unique:todolists,title' .$request->up_id,
+
+            ],
+            [
+                'up_title.required' => 'Title is requried',
+                'up_title.unique' => 'Already Exists'
+            ]
+        );
+
+        // $title = $request->up_title;
+        // $active = $request->up_is_activec" ? true : false;
+        $title=$request->up_title;
+        $active=$request->up_is_active == "true"? true:false;
+        
+        $todo->update([
+            'title'=>$title,
+            'is_active'=>$active
+        ]);
+        
+// Todolist::where('id',$request->up_id)->update([
+
+//     // 'title' => $title,
+//     // 'is_active' => $active
+//     'title'=>$request->up_title,
+//     'is_active'=>$request->up_is_active=="true" ? true : false,
+// ]);
+        return response()->json([
+            'status' => 'success',
+
+        ]);
+
+
+
+    }
 }
