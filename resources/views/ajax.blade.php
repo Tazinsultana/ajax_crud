@@ -13,16 +13,13 @@
 </script>
 <script>
     $(document).ready(function() {
+        // For Creating....
         $(document).on('click', '.add_lst', function(e) {
-
             e.preventDefault();
-            // For Creating....
             let title = $('#title').val();
             let is_active = $('#is_active').is(":checked");
             // console.log(title, is_active);
-
             $.ajax({
-
                 url: "{{ route('add.list') }}",
                 method: 'POST',
                 data: {
@@ -55,9 +52,7 @@
                             "hideMethod": "fadeOut"
                         }
                     }
-                    // $('#todo_modal').modal('hide')
-                    // $('#title').val('')
-                    // getData();
+
                 },
                 error: function(err) {
 
@@ -65,14 +60,11 @@
                     $.each(error.errors, function(index, value) {
                         $('.errMsgContainer').append('<span class="text-danger">' +
                             value + '</span>');
-
-
                     });
                 }
             })
 
         })
-
 
         // show update form
 
@@ -179,15 +171,11 @@
             if (confirm('Are you sure to delte list??')) {
 
                 $.ajax({
-
-                    //    url: '/delete/'+id,
-
                     url: "{{ route('delete.list') }}",
                     method: 'DELETE',
                     data: {
                         del_id
                     },
-
 
                     success: function(res) {
                         if (res.status == 'success') {
@@ -220,10 +208,6 @@
                 })
 
             }
-
-            // console.log(title, is_active)
-
-
         })
 
         //    Live Search
@@ -249,16 +233,12 @@
                                     <td>${item.title}</td>
                                     <td> <span class="badge ${item.is_active ? 'text-bg-success' : 'text-bg-danger'}"> ${item.is_active ? 'Active' : 'InActive'}</span> </td>
 
-
-
-
-                                    <td>
+                                  <td>
                                         <a href="#" class="btn btn-warning upate_modal_form"
                                             data-bs-toggle="modal" data-bs-target="#updatemodal"
                                             data-id="${item.id}">Edit
-
+                            
                                         </a>
-
 
                                         <a href="#" class="btn btn-danger delete_modal"
                                             data-id="${item.id}">

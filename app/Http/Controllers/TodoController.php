@@ -73,9 +73,7 @@ class TodoController extends Controller
                 'title.unique' => 'Already Exists'
             ]
         );
-
-        // $title = $request->up_title;
-        // $active = $request->up_is_active ? true : false;
+        
         $title=$request->title;
          $active=$request->is_active == "true"? true:false;
          Todolist::findOrFail($request->id)->update([
