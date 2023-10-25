@@ -57,7 +57,7 @@ class TodoController extends Controller
      ]);
 
 
-       
+
     }
 
     // update/edit
@@ -79,19 +79,12 @@ class TodoController extends Controller
         $title=$request->title;
          $active=$request->is_active == "true"? true:false;
          Todolist::findOrFail($request->id)->update([
-        
+
             'title'=>$title,
             'is_active'=>$active
         ]);
-        
-// Todolist::where('id',$request->up_id)->update([
 
-//     'title' => $title,
-//  'is_active' => $active
-//     'title'=> $request->up_title,
-//     'is_active'=> $request->up_is_active =="true" ? true : false,
-// ]);
-// dd($request->all());
+
         return response()->json([
             'status' => 'success',
 
@@ -106,6 +99,17 @@ class TodoController extends Controller
             'status' => 'success',
 
         ]);
+    }
+    public function SearchList(Request $request ){
+        $todo= Todolist::where('title','like','%'.$request->search.'%')
+        ->orderBy('id','desc')->get();
+
+
+            return response()->json([
+               'data'=>$todo,
+            ]);
+
+
     }
 
 }

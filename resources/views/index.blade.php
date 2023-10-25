@@ -10,6 +10,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
 
     <title>Todo List</title>
 </head>
@@ -29,7 +31,8 @@
                 <div style="display:flex;justify-content:end">
                     <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">Add</a>
                 </div>
-
+                <input type="text" name="search" id="search" class="mb-3 my-3 form-control"
+                placeholder="Search Here..">
                 <div class="table-data">
 
                     <table class="table my-3">
@@ -41,7 +44,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="todo_body">
                             @foreach ($todo as $key => $todos)
                                 <tr>
                                     <th scope="row">{{ $key + 1 }}</th>
@@ -82,7 +85,7 @@
     </div>
     @include('update_modal')
     @include('ajax')
-
+    {!! Toastr::message() !!}
 </body>
 
 </html>

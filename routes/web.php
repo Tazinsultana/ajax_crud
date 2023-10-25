@@ -22,3 +22,4 @@ Route::post('/add',[TodoController::class,'addlist'])->name('add.list');
 Route::get('/edit',[TodoController::class,'Editlist'])->name('edit.list');
 Route::put('/update',[TodoController::class,'updatelist'])->name('update.list');
 Route::delete('delete',[TodoController::class,'deletelist'])->name('delete.list');
+Route::get('search',[TodoController::class,'SearchList'])->name('search.list');

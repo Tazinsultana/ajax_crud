@@ -3,6 +3,7 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -21,7 +22,7 @@
             // console.log(title, is_active);
 
             $.ajax({
-               
+
                 url: "{{ route('add.list') }}",
                 method: 'POST',
                 data: {
@@ -32,7 +33,27 @@
                     if (res.status == 'success') {
                         $('#addmodal').modal('hide');
                         $('#add')[0].reset();
-                        $('.table').load(location.href + ' .table');
+                        // $('.table').load(location.href + ' .table');
+                        search();
+                        Command: toastr["success"]("List Added Successfully!", "Success")
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
                     }
                     // $('#todo_modal').modal('hide')
                     // $('#title').val('')
@@ -58,30 +79,31 @@
         $(document).on('click', '.upate_modal_form', function() {
             let id = $(this).data('id');
             console.log(id);
-          
+
             $.ajax({
 
-            url:"{{ route('edit.list') }}",
-            method:"GeT",
-            data:{id},
-            success:function(res){
+                url: "{{ route('edit.list') }}",
+                method: "GeT",
+                data: {
+                    id
+                },
+                success: function(res) {
 
-            $('#up_id').val(res.data.id);
-            $('#up_title').val(res.data.title);
+                    $('#up_id').val(res.data.id);
+                    $('#up_title').val(res.data.title);
 
-            if(res.data.is_active){
-                $('#up_is_active').prop('checked',true);
+                    if (res.data.is_active) {
+                        $('#up_is_active').prop('checked', true);
 
-            }
-            else{
-                $('#up_is_active').prop('checked',false);
-            }
-            
-                // console.log(res);
-            }
+                    } else {
+                        $('#up_is_active').prop('checked', false);
+                    }
 
-           })
-            
+                    // console.log(res);
+                }
+
+            })
+
         });
 
         // update list
@@ -90,7 +112,7 @@
 
             e.preventDefault();
 
-            let up_id=$('#up_id').val();
+            let up_id = $('#up_id').val();
             let up_title = $('#up_title').val();
             let up_is_active = $('#up_is_active').is(":checked");
             // console.log(title, is_active);
@@ -100,15 +122,35 @@
                 url: "{{ route('update.list') }}",
                 method: 'PUT',
                 data: {
-                    id:up_id,
-                   title: up_title,
-                    is_active:up_is_active
+                    id: up_id,
+                    title: up_title,
+                    is_active: up_is_active
                 },
                 success: function(res) {
                     if (res.status == 'success') {
                         $('#updatemodal').modal('hide');
                         $('#update')[0].reset();
-                        $('.table').load(location.href + ' .table');
+                        // $('.table').load(location.href + ' .table');
+                        search();
+                        Command: toastr["success"]("Updated Successfully!", "Success")
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
                     }
 
                 },
@@ -139,16 +181,38 @@
                 $.ajax({
 
                     //    url: '/delete/'+id,
-                    
+
                     url: "{{ route('delete.list') }}",
                     method: 'DELETE',
-                    data: { del_id},
-                        
-                  
+                    data: {
+                        del_id
+                    },
+
+
                     success: function(res) {
                         if (res.status == 'success') {
 
-                            $('.table').load(location.href + ' .table');
+                            // $('.table').load(location.href + ' .table');
+                            search();
+                            Command: toastr["success"]("Delete Sccessfully!", "Success")
+
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
                         }
 
                     }
@@ -158,6 +222,63 @@
             }
 
             // console.log(title, is_active)
+
+
+        })
+
+        //    Live Search
+        function search() {
+            let search = $('#search').val();
+            console.log(search);
+            $.ajax({
+
+                url: "{{ route('search.list') }}",
+                method: "GET",
+                data: {
+                    search
+                },
+                success: function(res) {
+                    // console.log(res);
+                    const search_result = res.data;
+                    console.log(search_result);
+                    let r_res = '';
+                    $.each(search_result, function(key, item) {
+                        r_res += `
+                                 <tr>
+                                    <th scope="row">${key+1}</th>
+                                    <td>${item.title}</td>
+                                    <td> <span class="badge ${item.is_active ? 'text-bg-success' : 'text-bg-danger'}"> ${item.is_active ? 'Active' : 'InActive'}</span> </td>
+
+
+
+
+                                    <td>
+                                        <a href="#" class="btn btn-warning upate_modal_form"
+                                            data-bs-toggle="modal" data-bs-target="#updatemodal"
+                                            data-id="${item.id}">Edit
+
+                                        </a>
+
+
+                                        <a href="#" class="btn btn-danger delete_modal"
+                                            data-id="${item.id}">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+
+                        `
+                    })
+
+                    $('#todo_body').html(r_res);
+
+                }
+            })
+
+        }
+        $(document).on('keyup', function(e) {
+            e.preventDefault();
+            search();
 
 
         })
