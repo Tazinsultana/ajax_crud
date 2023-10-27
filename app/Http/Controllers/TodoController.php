@@ -9,9 +9,30 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todo = Todolist::latest()->get();
+        $page=0;
+        $item=10;
+        $todo = Todolist::latest()->skip($page*$item)->take($item)->get();
 
-        return view('index', compact('todo'));
+        // total item  count
+        $total_item=TodoList::count();
+        // total possible pages
+        $total_page=(int)ceil($total_item/10);
+
+
+
+
+
+        // for learning
+
+                    // count only active item
+                    $active_item_count=TodoList::where('is_active',1)->count();
+
+                    // count only in active item
+                    $active_item_count=TodoList::where('is_active',0)->count();
+
+        // end learning
+
+        return view('index', compact('todo','total_page'));
     }
 
     // create
@@ -73,7 +94,7 @@ class TodoController extends Controller
                 'title.unique' => 'Already Exists'
             ]
         );
-        
+
         $title=$request->title;
          $active=$request->is_active == "true"? true:false;
          Todolist::findOrFail($request->id)->update([
@@ -99,12 +120,20 @@ class TodoController extends Controller
         ]);
     }
     public function SearchList(Request $request ){
-        $todo= Todolist::where('title','like','%'.$request->search.'%')
-        ->orderBy('id','desc')->get();
 
+        $page=$request->page;
+        $item=10;
+
+        $todo= Todolist::where('title','like','%'.$request->search.'%')
+        ->orderBy('id','desc')->skip($page*$item)->take($item)->get();
+
+        // page list
+        $total_count=Todolist::where('title','like','%'.$request->search.'%')->count();
+        $total_page=(int)ceil($total_count/10);
 
             return response()->json([
                'data'=>$todo,
+               'total_page'=>$total_page
             ]);
 
 

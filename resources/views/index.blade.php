@@ -77,8 +77,15 @@
 
                         </tbody>
                         {{-- { !!$todo->links() !! }  --}}
+
                 </div>
                 </table>
+                <div  id="pagination_container" class="d-flex gap-1">
+                    @for ($page=1;$page<=$total_page;$page++)
+                    <a href="" class="btn btn-sm btn-secondary pagination_item  " data-page="{{ $page-1 }}"> {{ $page }} </a>
+                    @endfor
+                </div>
+
 
             </div>
         </div>

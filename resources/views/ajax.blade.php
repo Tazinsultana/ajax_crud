@@ -211,7 +211,7 @@
         })
 
         //    Live Search
-        function search() {
+        function search(page = 0) {
             let search = $('#search').val();
             console.log(search);
             $.ajax({
@@ -219,7 +219,8 @@
                 url: "{{ route('search.list') }}",
                 method: "GET",
                 data: {
-                    search
+                    search,
+                    page
                 },
                 success: function(res) {
                     // console.log(res);
@@ -237,7 +238,7 @@
                                         <a href="#" class="btn btn-warning upate_modal_form"
                                             data-bs-toggle="modal" data-bs-target="#updatemodal"
                                             data-id="${item.id}">Edit
-                            
+
                                         </a>
 
                                         <a href="#" class="btn btn-danger delete_modal"
@@ -252,6 +253,14 @@
 
                     $('#todo_body').html(r_res);
 
+
+                    // modify pagination for searching
+                    let pagination='';
+                    for(let page=1;page<=res.total_page;page++){
+                        pagination+=`<a href="" class="btn btn-sm btn-secondary pagination_item  " data-page="${page-1}"> ${page} </a>`;
+                    }
+                    $('#pagination_container').html(pagination)
+
                 }
             })
 
@@ -262,5 +271,16 @@
 
 
         })
+
+
+
+        // for pagination
+        $(document).on('click', '.pagination_item', function(e) {
+            e.preventDefault();
+            const page = $(this).data('page')
+            search(page)
+        })
+
+
     });
 </script>
